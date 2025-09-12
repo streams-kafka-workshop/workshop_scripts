@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+prompt() { read -r -p "$1" _ < /dev/tty; }
+
 IMAGE=registry.redhat.io/amq-streams/kafka-40-rhel9:3.0.0
 BOOTSTRAP=kafka-kafka-bootstrap:9092
 TOPIC=demo
@@ -23,7 +25,7 @@ oc run cg-c1 --restart=Never \
 # wait until the pod is Ready (container running)
 oc wait pod/cg-c1 --for=condition=Ready --timeout=120s
 
-read -r -p $'[input] Press Enter to start the second consumer cg-c2...' _
+prompt $'[input] Press Enter to start the second consumer cg-c2...'
 
 echo "[2/3] starting consumer cg-c2 in the same group ..."
 oc run cg-c2 --restart=Never \
@@ -37,7 +39,7 @@ oc run cg-c2 --restart=Never \
     --property key.separator=' | '"
 oc wait pod/cg-c2 --for=condition=Ready --timeout=120s
 
-read -r -p $'[input] Press Enter to start the third consumer cg-c3...' _
+prompt $'[input] Press Enter to start the third consumer cg-c3...'
 
 echo "[3/3] starting consumer cg-c3 in the same group..."
 oc run cg-c3 --restart=Never \
@@ -54,6 +56,6 @@ oc wait pod/cg-c3 --for=condition=Ready --timeout=120s
 echo
 echo "✅ All three consumers are running and consuming messages"
 echo
-read -r -p $'[input] Press Enter to STOP all consumers...' _
+prompt $'[input] Press Enter to STOP all consumers...'
 oc delete pod cg-c1 cg-c2 cg-c3 --now --ignore-not-found
 echo "🛑 Stopped."

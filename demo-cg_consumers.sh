@@ -19,6 +19,7 @@ oc run cg-c1 --restart=Never \
     --topic $TOPIC \
     --group $GROUP \
     --from-beginning \
+    --consumer-property client.id=\$HOSTNAME \
     --property print.key=true \
     --property print.partition=true \
     --property key.separator=' | '"
@@ -34,6 +35,7 @@ oc run cg-c2 --restart=Never \
     --bootstrap-server $BOOTSTRAP \
     --topic $TOPIC \
     --group $GROUP \
+    --consumer-property client.id=\$HOSTNAME \
     --property print.key=true \
     --property print.partition=true \
     --property key.separator=' | '"
@@ -48,6 +50,7 @@ oc run cg-c3 --restart=Never \
     --bootstrap-server $BOOTSTRAP \
     --topic $TOPIC \
     --group $GROUP \
+    --consumer-property client.id=\$HOSTNAME \
     --property print.key=true \
     --property print.partition=true \
     --property key.separator=' | '"

@@ -10,7 +10,7 @@ echo "[cleanup] deleting any old consumers..."
 oc delete pod cg-c1 cg-c2 cg-c3 --ignore-not-found >/dev/null 2>&1 || true
 
 echo "[1/3] starting the first consumer cg-c1..."
-oc run consumer cg-c1 --restart=Never \
+oc run cg-c1 --restart=Never \
   --image="$IMAGE" -- \
   bash -lc "/opt/kafka/bin/kafka-console-consumer.sh \
     --bootstrap-server $BOOTSTRAP \
